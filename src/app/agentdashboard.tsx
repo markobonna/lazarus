@@ -6,6 +6,10 @@ import { AlertCircle, CheckCircle, PlayCircle, StopCircle } from "lucide-react";
 import { setupLangChainAgent } from "@/config/langchain";
 import { CdpAgentkit } from "@coinbase/cdp-agentkit-core";
 
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+const agentManager = new AgentManager(provider, signer);
+
 const AgentDashboard = () => {
   const [wallet, setWallet] = useState(null);
   const [agent, setAgent] = useState(null);
