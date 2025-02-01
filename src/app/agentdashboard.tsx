@@ -17,11 +17,12 @@ const AgentDashboard = () => {
       setIsConnecting(true);
       // Initialize CDP AgentKit
       const agentkit = await CdpAgentkit.configureWithWallet();
-      setWallet(await agentkit.getWalletDetails());
+      const walletDetails = await agentkit.getWalletDetails(); // Use public method instead of accessing private property
+      setWallet(walletDetails);
 
       // Setup LangChain agent
       const langChainAgent = await setupLangChainAgent();
-      setAgent(langChainAgent);
+      setAgent(langChainAgent as any); // Type assertion to fix type error
     } catch (error) {
       console.error("Failed to connect:", error);
     } finally {
@@ -68,22 +69,32 @@ const AgentDashboard = () => {
           </Button>
         ) : (
           <div className="text-sm text-gray-600">
-            Connected: {wallet.address}
+            Connected: {(wallet as { address: string }).address}
           </div>
         )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {instances.map((instance) => (
-          <AgentCard key={instance.instanceId} instance={instance} />
-        ))}
+        {instances.map(
+          (instance: {
+            instanceId: string;
+            name: string;
+            status: string;
+            templateId: string;
+          }) => (
+            <AgentCard key={instance.instanceId} instance={instance} />
+          )
+        )}
       </div>
     </div>
   );
 };
-
-const AgentCard = ({ instance }) => {
-  const getStatusIcon = (status) => {
+const AgentCard = ({
+  instance,
+}: {
+  instance: { status: string; name: string; templateId: string };
+}) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case "running":
         return <CheckCircle className="h-5 w-5 text-green-500" />;
