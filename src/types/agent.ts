@@ -4,6 +4,7 @@ export interface AgentTemplate {
   id: string;
   name: string;
   description: string;
+  category: string;
   capabilities: string[];
   requiredActions: string[];
   defaultConfig: Record<string, any>;
