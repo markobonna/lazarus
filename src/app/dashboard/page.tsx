@@ -10,6 +10,7 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const agentManager = new AgentManager(provider, signer);
 
+
 const AgentDashboard = () => {
   const [wallet, setWallet] = useState(null);
   const [agent, setAgent] = useState(null);
