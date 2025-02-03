@@ -1,37 +1,34 @@
-import {
-  PlatformConfig,
-  PlatformStatus,
-  Interaction,
-  ViralContent,
-} from "@/types/social";
+import { PlatformConfig, PlatformStatus, Interaction } from "@/types/social";
+import { TelegramIntegration } from "./platform-integrations/telegram";
+import { DiscordIntegration } from "./platform-integrations/discord";
+import { TwitterIntegration } from "./platform-integrations/twitter";
 
 export class PlatformManager {
-  private platforms: Map<string, PlatformStatus>;
-  private interactions: Interaction[];
-  private viralContent: ViralContent[];
+  private platforms: Map<string, any>;
+  private statuses: Map<string, PlatformStatus>;
 
   constructor() {
     this.platforms = new Map();
-    this.interactions = [];
-    this.viralContent = [];
+    this.statuses = new Map();
   }
 
   async initializePlatform(config: PlatformConfig): Promise<void> {
     try {
-      const status: PlatformStatus = {
+      const platform = this.createPlatformInstance(config);
+      await platform.initialize();
+
+      this.platforms.set(config.id, platform);
+      this.updateStatus(config.id, {
         id: config.id,
         name: config.name,
         status: "active",
-        users: 0,
+        users: await this.getUserCount(config.id),
         lastSync: new Date().toISOString(),
         errorCount: 0,
-      };
-      await this.setupWebhooks(config);
-      await this.validateApiKey(config);
-      this.platforms.set(config.id, status);
+      });
     } catch (error) {
       console.error(`Failed to initialize ${config.name}:`, error);
-      this.platforms.set(config.id, {
+      this.updateStatus(config.id, {
         id: config.id,
         name: config.name,
         status: "inactive",
@@ -42,53 +39,67 @@ export class PlatformManager {
     }
   }
 
-  private async setupWebhooks(config: PlatformConfig): Promise<void> {
-    if (!config.webhookUrl) return;
-    // Platform-specific webhook setup would go here
+  private createPlatformInstance(config: PlatformConfig): any {
+    switch (config.id) {
+      case "telegram":
+        return new TelegramIntegration(config);
+      case "discord":
+        return new DiscordIntegration(config);
+      case "twitter":
+        return new TwitterIntegration(config);
+      default:
+        throw new Error(`Unsupported platform: ${config.id}`);
+    }
   }
 
-  private async validateApiKey(config: PlatformConfig): Promise<void> {
-    if (!config.apiKey) return;
-    // Platform-specific API key validation would go here
+  private updateStatus(platformId: string, status: PlatformStatus): void {
+    this.statuses.set(platformId, status);
   }
 
-  async recordInteraction(
-    interaction: Omit<Interaction, "id">
-  ): Promise<Interaction> {
-    const newInteraction: Interaction = {
-      ...interaction,
-      id: `int-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-    };
-    this.interactions.unshift(newInteraction);
-    this.interactions = this.interactions.slice(0, 100); // Keep last 100 interactions
-    return newInteraction;
+  async getUserCount(platformId: string): Promise<number> {
+    const platform = this.platforms.get(platformId);
+    if (!platform) return 0;
+
+    switch (platformId) {
+      case "telegram":
+        return platform.getUserCount();
+      case "discord":
+        return platform.getMemberCount();
+      case "twitter":
+        return platform.getFollowerCount();
+      default:
+        return 0;
+    }
   }
 
-  async recordViralContent(
-    content: Omit<ViralContent, "id">
-  ): Promise<ViralContent> {
-    const newContent: ViralContent = {
-      ...content,
-      id: `vc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-    };
-    this.viralContent.unshift(newContent);
-    this.viralContent = this.viralContent.slice(0, 50); // Keep last 50 viral contents
-    return newContent;
+  async sendMessage(
+    platformId: string,
+    message: string,
+    channelId?: string
+  ): Promise<void> {
+    const platform = this.platforms.get(platformId);
+    if (!platform) throw new Error(`Platform ${platformId} not initialized`);
+
+    switch (platformId) {
+      case "telegram":
+        await platform.sendMessage(channelId || "", message);
+        break;
+      case "discord":
+        await platform.sendMessage(channelId || "", message);
+        break;
+      case "twitter":
+        await platform.tweet(message);
+        break;
+      default:
+        throw new Error(`Unsupported platform: ${platformId}`);
+    }
   }
 
-  async getRecentInteractions(limit: number = 10): Promise<Interaction[]> {
-    return this.interactions.slice(0, limit);
+  getStatus(platformId: string): PlatformStatus | undefined {
+    return this.statuses.get(platformId);
   }
 
-  async getViralContent(limit: number = 10): Promise<ViralContent[]> {
-    return this.viralContent.slice(0, limit);
-  }
-
-  async getPlatformStatus(platformId: string): Promise<PlatformStatus | null> {
-    return this.platforms.get(platformId) || null;
-  }
-
-  async getAllPlatformStatuses(): Promise<PlatformStatus[]> {
-    return Array.from(this.platforms.values());
+  getAllStatuses(): PlatformStatus[] {
+    return Array.from(this.statuses.values());
   }
 }
