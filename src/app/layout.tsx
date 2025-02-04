@@ -1,4 +1,6 @@
-import "@/app/global.css"; // Adjust the path as necessary
+"use client";
+
+import "./global.css"; // Update the import path
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
