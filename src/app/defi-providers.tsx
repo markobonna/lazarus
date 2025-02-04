@@ -1,6 +1,9 @@
+"use client";
+
 // src/app/providers.tsx
 import { DeFiAgent } from "@/lib/defi";
 import { useEffect, useState } from "react";
+import { ethers } from "ethers";
 
 export function DeFiProvider({ children }: { children: React.ReactNode }) {
   const [defiAgent, setDefiAgent] = useState<DeFiAgent | null>(null);
