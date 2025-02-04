@@ -38,3 +38,6 @@ next-env.d.ts
 
 # vercel
 .vercel 
+
+#prize integration githubs
+/Integration Githubs

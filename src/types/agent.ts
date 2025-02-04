@@ -1,4 +1,8 @@
 import { CdpAgentkit } from "@coinbase/cdp-agentkit-core";
+import { AgentKit, CdpWalletProvider } from "@coinbase/agentkit";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 export interface AgentTemplate {
   id: string;
@@ -38,4 +42,16 @@ export interface WalletDetails {
   address: string;
   balance: bigint;
   network: string;
+}
+
+async function initializeAgent() {
+  const config = {
+    apiKeyName: process.env.CDP_API_KEY_NAME,
+    apiKeyPrivateKey: process.env.CDP_API_KEY_PRIVATE_KEY,
+    networkId: process.env.NETWORK_ID || "base-sepolia",
+  };
+
+  const walletProvider = await CdpWalletProvider.configureWithWallet(config);
+  const agentkit = await AgentKit.from({ walletProvider });
+  // Additional setup...
 }

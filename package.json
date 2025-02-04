@@ -21,11 +21,13 @@
   "homepage": "https://github.com/markobonna/lazarus#readme",
   "description": "",
   "dependencies": {
+    "@coinbase/agentkit": "^0.1.1",
     "@coinbase/cdp-agentkit-core": "^0.0.14",
     "@coinbase/cdp-langchain": "^0.0.15",
     "@coinbase/onchainkit": "^0.36.9",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@langchain/core": "^0.3.37",
     "@langchain/langgraph": "^0.2.44",
     "@langchain/openai": "^0.4.2",
     "@lit-protocol/lit-node-client": "^7.0.4",
@@ -37,16 +39,16 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.474.0",
     "next": "^15.1.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "recharts": "^2.15.1",
     "typescript": "^5.7.3",
-    "viem": "^2.22.17",
+    "viem": "^2.22.21",
     "wagmi": "^2.14.9"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.1",
-    "tailwindcss": "^4.0.2"
+    "tailwindcss": "^4.0.3"
   }
 }
