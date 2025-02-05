@@ -1,7 +1,6 @@
-import { Stat } from "@/app/stat";
 import { Avatar } from "@/components/ui/avatar";
-import { Heading, Subheading } from "@/components/ui/heading";
-import { Select } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
 import {
   Table,
   TableBody,
@@ -10,33 +9,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getRecentOrders } from "@/data";
+import { getOrders } from "@/data";
+import type { Metadata } from "next";
 
-export default async function Home() {
-  const orders = await getRecentOrders();
+export const metadata: Metadata = {
+  title: "Orders",
+};
+
+export default async function Orders() {
+  let orders = await getOrders();
 
   return (
     <>
-      <Heading>Good afternoon, Erica</Heading>
-      <div className="mt-8 flex items-end justify-between">
-        <Subheading>Overview</Subheading>
-        <div>
-          <Select name="period">
-            <option value="last_week">Last week</option>
-            <option value="last_two">Last two weeks</option>
-            <option value="last_month">Last month</option>
-            <option value="last_quarter">Last quarter</option>
-          </Select>
-        </div>
+      <div className="flex items-end justify-between gap-4">
+        <Heading>Orders</Heading>
+        <Button className="-my-0.5">Create order</Button>
       </div>
-      <div className="mt-4 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat title="Total revenue" value="$2.6M" change="+4.5%" />
-        <Stat title="Average order value" value="$455" change="-0.5%" />
-        <Stat title="Tickets sold" value="5,888" change="+4.5%" />
-        <Stat title="Pageviews" value="823,067" change="+21.2%" />
-      </div>
-      <Subheading className="mt-14">Recent orders</Subheading>
-      <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table className="mt-8 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
             <TableHeader>Order number</TableHeader>
