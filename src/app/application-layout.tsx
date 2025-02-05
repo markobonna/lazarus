@@ -147,6 +147,20 @@ export function ApplicationLayout({
                 <SidebarLabel>Home</SidebarLabel>
               </SidebarItem>
               <SidebarItem
+                href="/testpages/onchainkit"
+                current={pathname.startsWith("/onchainkit")}
+              >
+                <Square2StackIcon />
+                <SidebarLabel>OnchainKit Testpage</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem
+                href="/testpages/agentkit"
+                current={pathname.startsWith("/agentkit")}
+              >
+                <Square2StackIcon />
+                <SidebarLabel>Agentkit TestPage</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem
                 href="/events"
                 current={pathname.startsWith("/events")}
               >
