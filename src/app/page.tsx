@@ -1,11 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { Heading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h1 className="text-4xl font-bold">Hackathon Project</h1>
+    <div className="space-y-6">
+      <Heading level={1}>Welcome to LAZARUS</Heading>
+      <Text>
+        Create and manage temporary Layer 2 blockchain networks with ease.
+      </Text>
       <Link
         href="/testpages/onchainkit"
         className="text-blue-500 hover:text-blue-700 underline"
@@ -18,6 +23,6 @@ export default function Home() {
       >
         Go to AgentKit Test Page
       </Link>
-    </main>
+    </div>
   );
 }

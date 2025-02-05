@@ -1,28 +1,27 @@
-import "./global.css";
-import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { OnchainProviders } from "./onchain-providers";
-import { DeFiProvider } from "./defi-providers";
+import "@/app/global.css";
 import type { Metadata } from "next";
+import type React from "react";
 
 export const metadata: Metadata = {
-  title: "Hackathon Project",
+  title: {
+    template: "%s - LAZARUS",
+    default: "LAZARUS",
+  },
   description: "AI-Managed Ethereum Rollups",
 };
 
-// Create a client
-const queryClient = new QueryClient();
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <OnchainProviders>{children}</OnchainProviders>
-      </body>
+    <html
+      lang="en"
+      className="text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950"
+    >
+      <head></head>
+      <body>hello</body>
     </html>
   );
 }
