@@ -5,6 +5,9 @@ import {
   AgentKit,
   CdpWalletProvider,
   type WalletProvider,
+  type AgentKitConfig,
+  walletActionProvider,
+  cdpWalletActionProvider,
 } from "@coinbase/agentkit";
 
 export default function WalletInfo() {
@@ -15,7 +18,7 @@ export default function WalletInfo() {
   useEffect(() => {
     const initWallet = async () => {
       try {
-        const config = {
+        const config: AgentKitConfig = {
           apiKeyName: process.env.CDP_API_KEY_NAME!,
           apiKeyPrivateKey: process.env.CDP_API_KEY_PRIVATE_KEY!,
           networkId: process.env.NETWORK_ID || "base-sepolia",

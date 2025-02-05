@@ -1,4 +1,4 @@
-import AVSDashboard from "@/components/agents/avs-dashboard";
+import AVSDashboard from "../../components/agents/avs-dashboard";
 
 export default function AVSPage() {
   return (

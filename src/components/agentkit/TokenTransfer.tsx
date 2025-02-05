@@ -15,9 +15,9 @@ interface TransferError {
 }
 
 export default function TokenTransfer() {
-  const [toAddress, setToAddress] = useState("");
-  const [amount, setAmount] = useState("");
-  const [status, setStatus] = useState("");
+  const [toAddress, setToAddress] = useState<string>("");
+  const [amount, setAmount] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const handleTransfer = async () => {
     try {
@@ -41,13 +41,13 @@ export default function TokenTransfer() {
 
       setStatus("Initiating transfer...");
 
-      // Use wallet provider to send transaction
-      const tx = await walletProvider.sendTransaction({
+      const result = await agentkit.executeAction("wallet_transfer", {
         to: toAddress,
-        value: amount,
+        amount: amount,
+        network: "base-sepolia",
       });
 
-      setStatus(`Transfer successful! TX: ${tx.hash}`);
+      setStatus(`Transfer successful! ${result}`);
     } catch (error: unknown) {
       const err = error as TransferError;
       console.error("Transfer failed:", err);

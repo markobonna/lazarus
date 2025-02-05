@@ -6,6 +6,8 @@ import { useState } from "react";
 import WalletInfo from "@/components/agentkit/WalletInfo";
 import TokenTransfer from "@/components/agentkit/TokenTransfer";
 import BasenameRegistration from "@/components/agentkit/BasenameRegistration";
+import NFTManagement from "@/components/agentkit/NFTManagement";
+import ContractDeployment from "@/components/agentkit/ContractDeployment";
 
 export default function AgentKitTestPage() {
   const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -39,12 +41,26 @@ export default function AgentKitTestPage() {
         >
           Register Basename
         </Button>
+        <Button
+          className="bg-blue-500 text-white hover:bg-blue-600"
+          onClick={() => setActiveComponent("nft")}
+        >
+          NFT Management
+        </Button>
+        <Button
+          className="bg-blue-500 text-white hover:bg-blue-600"
+          onClick={() => setActiveComponent("contract")}
+        >
+          Contract Deployment
+        </Button>
       </div>
 
       <div className="mt-8">
         {activeComponent === "wallet" && <WalletInfo />}
         {activeComponent === "transfer" && <TokenTransfer />}
         {activeComponent === "basename" && <BasenameRegistration />}
+        {activeComponent === "nft" && <NFTManagement />}
+        {activeComponent === "contract" && <ContractDeployment />}
       </div>
     </div>
   );

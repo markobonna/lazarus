@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAgent } from "@coinbase/agentkit";
 import { Server, Shield, Activity } from "lucide-react";
-import { Card } from "../ui/card";
+import { Card } from "../../../src/components/ui/card";
 
 const AVSDashboard = () => {
   const { agent } = useAgent();

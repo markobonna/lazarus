@@ -1,5 +1,5 @@
-import { NoCodeBuilder } from "@/components/no-code/builder";
-import { AgentTesting } from "@/components/no-code/testing";
+import { NoCodeBuilder } from "../../../Junk/components/agents/no-code/builder";
+import { AgentTesting } from "../../../Junk/components/agents/no-code/testing";
 
 export default function NoCodePage() {
   return (
