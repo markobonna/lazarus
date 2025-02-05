@@ -1,8 +1,10 @@
 import { getEvents } from "@/data";
+import "@coinbase/onchainkit/styles.css";
 import "@/styles/tailwind.css";
 import type { Metadata } from "next";
 import type React from "react";
 import { ApplicationLayout } from "./application-layout";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +31,10 @@ export default async function RootLayout({
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </head>
       <body>
-        <ApplicationLayout events={events}>{children}</ApplicationLayout>
+        {" "}
+        <Providers>
+          <ApplicationLayout events={events}>{children}</ApplicationLayout>{" "}
+        </Providers>
       </body>
     </html>
   );
